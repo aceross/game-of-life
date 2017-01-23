@@ -51,20 +51,21 @@ main(void)
         print_board(board, *board_size);
         printf("\nThe Game of Life begins:\n");
 
-        for (i = 0; i < MAX_ITERATION; i++){
+        for (i = 0; i < MAX_ITERATION; i++) {
                 life_or_death (board, next_board, k, j, *board_size); /* update next board */
-                if (check_if_equal(board, next_board, *board_size) == 1){
+                if (check_if_equal(board, next_board, *board_size) == 1) {
                         i = MAX_ITERATION;
-                }
-                else{
+                } else {
                         printf("\nIteration number: %d\n", count);
                         print_board(next_board, *board_size);
                         update_board(board, next_board, k, j, *board_size);     /* updates current board */
                         count++;
                 }
         }
+
         printf("The Game of Life has ended.\n");
-   return 0;
+
+        return 0;
 }
 
 /* checks if the boards are equal */
@@ -73,8 +74,8 @@ check_if_equal(int board[][BOARD_LIMIT], int next_board[][BOARD_LIMIT], int boar
 {
         int k, j;
   
-        for (k = 0; k < board_size; k++){
-                for (j = 0; j < board_size; j++){
+        for (k = 0; k < board_size; k++) {
+                for (j = 0; j < board_size; j++) {
                         if (board[k][j] != next_board[k][j]) {
                                 return 0;
                         }
@@ -136,8 +137,8 @@ print_board(int board[][BOARD_LIMIT], int board_size)
 {
         int i, j;
 
-        for (i = 0; i < board_size; i++){
-                for (j = 0; j < board_size; j++){
+        for (i = 0; i < board_size; i++) {
+                for (j = 0; j < board_size; j++) {
                         if (board[i][j] == 1) {
                                 putchar ('@');
                         } else {
@@ -150,7 +151,6 @@ print_board(int board[][BOARD_LIMIT], int board_size)
 #if ANIMATE == 1
         sleep(1);
 #endif
-  
 }
 
 /* counts the neighbours of a given cell */
@@ -196,8 +196,8 @@ life_or_death(int board[][BOARD_LIMIT], int next_board[][BOARD_LIMIT], int k, in
 
         set_board(next_board, board_size);
 
-        for (k = 0; k < board_size; k++){
-                for (j = 0; j < board_size; j++){
+        for (k = 0; k < board_size; k++) {
+                for (j = 0; j < board_size; j++) {
                         neighbour_count = count_neighbours(board, k, j, board_size);
                         if (board[k][j] == 0) {
                                 /* cell is uninhabited, check if conditions
@@ -205,12 +205,10 @@ life_or_death(int board[][BOARD_LIMIT], int next_board[][BOARD_LIMIT], int k, in
                                 */
                                 if (neighbour_count == BIRTH_CONDITION) {
                                         next_board[k][j] = 1;   /* birth */
-                                }
-                                else {
+                                } else {
                                         next_board[k][j] =0;
                                 }
-                        }
-                        else if (board[k][j] == 1) {
+                        } else if (board[k][j] == 1) {
                                 /* cell exists, check if it survies or dies */
                                 if (neighbour_count == SURVIVE_CONDITION_1 ||
                                     neighbour_count == SURVIVE_CONDITION_2) {
@@ -230,27 +228,9 @@ life_or_death(int board[][BOARD_LIMIT], int next_board[][BOARD_LIMIT], int k, in
 void
 update_board(int board[][BOARD_LIMIT], int next_board[][BOARD_LIMIT], int k, int j, int board_size)
 {
-        for (k = 0; k < board_size; k++){
+        for (k = 0; k < board_size; k++) {
                 for (j = 0; j < board_size; j++) {
                         board[k][j] = next_board[k][j];
                 }
         }
 }
-
-/*   NOTE   */
- 
-  /******************************************************************\        
-  *        The template of indices to check neighbours of a cell:    *
-  *         ________________________________________________         *
-  *        |[k+(-1),j+(-1)]| [k+(-1),j+(0)] | [k+(-1),j+(1)]|        *
-  *        |_______________|________________|_______________|        *
-  *        |[k+(0) ,j+(-1)]| [k+(0) ,j+(0)] | [k+(0) ,j+(1)]|        *
-  *        |_______________|________________|_______________|        *
-  *        |[k+(1) ,j+(-1)]| [k+(1) ,j+(0)] | [k+(1) ,j+(1)]|        *
-  *        |_______________|________________|_______________|        *
-  *                                                                  *
-  * where [k+(0) ,j+(0)] is the location of the cell being evaluated.* 
-  * The function loops through one cell at a time. The neighbours    *
-  * outside of the edges of the board are not considered based on    *
-  * the "if" condition in Line 154.                                  *
-  \******************************************************************/
